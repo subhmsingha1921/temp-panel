@@ -3,12 +3,12 @@ import { RightOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 type TableRowProps = {
-  image: string;
-  name: string;
-  age: number;
-  gender: string;
-  userId: string;
-  userType: string;
+  image: string | undefined;
+  name: string | undefined;
+  age: number | undefined;
+  gender: string | undefined;
+  userId: string | undefined;
+  userType: string | undefined;
 };
 
 const TableRow: React.FC<TableRowProps> = ({
