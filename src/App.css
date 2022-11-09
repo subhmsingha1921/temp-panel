@@ -1,3 +1,5 @@
+@import "~antd/dist/antd.css";
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.ant-select-arrow {
+  font-size: medium;
+  color: black;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
