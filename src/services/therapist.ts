@@ -1,14 +1,20 @@
-import { db, collection, getDocs } from "../libraries/firebase";
+import { db, collection, getDocs, Timestamp } from "../libraries/firebase";
 import { THERAPIST } from "../constants/collection";
 import { getAge, getAvatar } from "../utils/helper";
 
-export const fetchTherapists = async (setTherapistList) => {
+export const fetchTherapists = async (
+  setTherapistList: (arg0: any[]) => void
+) => {
   try {
     const therapistRef = collection(db, THERAPIST);
 
     const querySnapshot = await getDocs(therapistRef);
 
-    let therapists = [];
+    let therapists: {
+      key: string;
+      photo: string;
+      age: number;
+    }[] = [];
     querySnapshot.docs.forEach((d) => {
       const therapistData = d.data();
 

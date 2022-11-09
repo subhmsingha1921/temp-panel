@@ -14,12 +14,13 @@ import {
 } from "../libraries/firebase";
 
 import moment from "moment";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const fetchSessions = async (
-  setSessionList,
-  snapshotDocs,
-  setSnapshotDocs,
-  paginateType
+  setSessionList: (arg0: any[]) => void,
+  snapshotDocs: { docs: string | any[] },
+  setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  paginateType: string
 ) => {
   try {
     let sessionRef = query(
@@ -47,7 +48,19 @@ export const fetchSessions = async (
     }
 
     const querySnapshot = await getDocs(sessionRef);
-    let sessions = [];
+    let sessions: {
+      key: string;
+      id: string;
+      seekerId: string;
+      therapist: string;
+      started: string;
+      payment: any;
+      paidTime: string;
+      email: string;
+      reasonForBooking: string;
+      preferredAge: number;
+      preferredLanguage: string;
+    }[] = [];
 
     if (querySnapshot.size > 0) {
       querySnapshot.docs.forEach((d) => {
@@ -86,7 +99,11 @@ export const fetchSessions = async (
   }
 };
 
-export const setSessionUrl = async (userId, sessionId, value) => {
+export const setSessionUrl = async (
+  userId: string,
+  sessionId: string,
+  value: string
+) => {
   try {
     const batch = writeBatch(db);
     const sessionRef = doc(db, SESSIONS, sessionId);

@@ -32,12 +32,13 @@ import {
 } from "../libraries/firebase";
 import { getAge, getAvatar } from "../utils/helper";
 import moment from "moment";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const fetchUsers = async (
-  setSeekerList,
-  snapshotDocs,
-  setSnapshotDocs,
-  paginateType
+  setSeekerList: (arg0: any[]) => void,
+  snapshotDocs: { docs: string | any[] },
+  setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  paginateType: string
 ) => {
   try {
     let userRef = query(
@@ -65,7 +66,7 @@ export const fetchUsers = async (
     }
 
     onSnapshot(userRef, (snapshot) => {
-      let users = [];
+      let users: { key: string; name: any; age: any; gender: any }[] = [];
 
       if (snapshot.size > 0) {
         snapshot.docs.forEach((d) => {
@@ -88,11 +89,11 @@ export const fetchUsers = async (
 };
 
 export const fetchListeners = async (
-  listenerList,
-  setListenerList,
-  snapshotDocs,
-  setSnapshotDocs,
-  paginateType
+  listenerList: any[],
+  setListenerList: (arg0: any) => void,
+  snapshotDocs: any[],
+  setSnapshotDocs: (arg0: any) => void,
+  paginateType: string
 ) => {
   try {
     let userRef = query(collection(db, LISTENERS), limit(10));
@@ -109,7 +110,7 @@ export const fetchListeners = async (
       let updatedSnapshotDocs = snapshotDocs.concat(snapshot.docs);
       setSnapshotDocs(updatedSnapshotDocs);
 
-      let users = [];
+      let users: { key: string; name: any; age: any; gender: any }[] = [];
       snapshot.docs.forEach((d) => {
         const userData = d.data();
         users.push({
@@ -128,7 +129,20 @@ export const fetchListeners = async (
   }
 };
 
-export const getUserData = async (setUserData, userId, userType) => {
+export const getUserData = async (
+  setUserData: (
+    arg0: {
+      key: any;
+      name: string;
+      photo: string;
+      age: number;
+      gender: string;
+      profileType: string;
+    }[]
+  ) => void,
+  userId: string,
+  userType: string
+) => {
   try {
     const DOC_TYPE = userType === "seeker" ? USERS : LISTENERS;
     const profileType =
@@ -136,7 +150,7 @@ export const getUserData = async (setUserData, userId, userType) => {
 
     const docRef = doc(db, DOC_TYPE, userId);
     const response = await getDoc(docRef);
-    const userData = response.data();
+    const userData: any = response.data();
 
     setUserData([
       {
@@ -153,11 +167,25 @@ export const getUserData = async (setUserData, userId, userType) => {
   }
 };
 
-export const getUserProfileInfo = async (setCurrentUser, userId) => {
+export const getUserProfileInfo = async (
+  setCurrentUser: (arg0: {
+    id: any;
+    name: string;
+    photo: string;
+    age: number;
+    contact: string;
+    phone: string;
+    bio: string;
+    email: string;
+    gender: string;
+    location: string | any;
+  }) => void,
+  userId: string
+) => {
   try {
     const userRef = doc(db, USERS, userId);
     const response = await getDoc(userRef);
-    const userData = response.data();
+    const userData: any = response.data();
 
     setCurrentUser({
       id: userId,
@@ -176,11 +204,25 @@ export const getUserProfileInfo = async (setCurrentUser, userId) => {
   }
 };
 
-export const getListenerProfileInfo = async (setCurrentUser, userId) => {
+export const getListenerProfileInfo = async (
+  setCurrentUser: (arg0: {
+    id: any;
+    name: string;
+    photo: string;
+    age: number;
+    contact: string;
+    phone: string;
+    bio: string;
+    email: string;
+    gender: string;
+    location: string | any;
+  }) => void,
+  userId: string
+) => {
   try {
     const listenerRef = doc(db, LISTENERS, userId);
     const response = await getDoc(listenerRef);
-    const listenerData = response.data();
+    const listenerData: any = response.data();
 
     setCurrentUser({
       id: userId,
@@ -200,12 +242,22 @@ export const getListenerProfileInfo = async (setCurrentUser, userId) => {
 };
 
 export const getUserActiveChats = async (
-  setActiveChat,
-  userId,
+  setActiveChat: (arg0: any[]) => void,
+  userId: string,
   userType = "user"
 ) => {
   try {
-    const activeChatList = [];
+    const activeChatList: {
+      key: string;
+      userId: string;
+      otherUserId: string;
+      photo: string;
+      name: string;
+      age: number;
+      topicName: string;
+      chatId: string;
+      chatType: string;
+    }[] = [];
 
     const activeChats = query(
       collection(db, CHATS),
@@ -239,16 +291,26 @@ export const getUserActiveChats = async (
 };
 
 export const getUserDedicatedChats = async (
-  dedicatedChat,
-  setDedicatedChat,
-  userId,
-  userType,
-  snapshotDocs,
-  setSnapshotDocs,
-  paginateType
+  dedicatedChat: any[],
+  setDedicatedChat: (arg0: any) => void,
+  userId: string,
+  userType: unknown,
+  snapshotDocs: any[],
+  setSnapshotDocs: (arg0: any) => void,
+  paginateType: string
 ) => {
   try {
-    let dedicatedChatList = [];
+    let dedicatedChatList: {
+      key: string;
+      userId: string;
+      otherUserId: string;
+      photo: string;
+      name: string;
+      age: number;
+      topicName: string;
+      chatId: string;
+      chatType: string;
+    }[] = [];
     let dedicatedRef = query(
       collection(db, USERS, userId, DEDICATED_CHAT),
       where("type", "==", userType),
@@ -291,16 +353,26 @@ export const getUserDedicatedChats = async (
 };
 
 export const getUserArchiveChats = async (
-  archiveChatList,
-  setArchiveChatList,
-  userId,
-  userType,
-  snapshotDocs,
-  setSnapshotDocs,
-  paginateType
+  archiveChatList: any[],
+  setArchiveChatList: (arg0: any) => void,
+  userId: string,
+  userType: string,
+  snapshotDocs: any[],
+  setSnapshotDocs: (arg0: any) => void,
+  paginateType: string
 ) => {
   try {
-    let chatList = [];
+    let chatList: {
+      key: string;
+      userId: string;
+      photo: string;
+      otherUserId: string;
+      name: string;
+      age: number;
+      topicName: string;
+      chatId: string;
+      chatType: string;
+    }[] = [];
     let archiveChatRef = query(
       collection(db, USERS, userId, ARCHIVE),
       where("type", "==", userType),
@@ -342,14 +414,25 @@ export const getUserArchiveChats = async (
   }
 };
 
-export const getSeekerReports = async (setSeekerReports, userId) => {
+export const getSeekerReports = async (
+  setSeekerReports: (arg0: any[]) => void,
+  userId: unknown
+) => {
   try {
     const reportRef = query(
       collection(db, SEEKER_REPORTS),
       where("user", "==", userId)
     );
     onSnapshot(reportRef, (snapshot) => {
-      let reportList = [];
+      let reportList: {
+        key: string;
+        userId: string;
+        otherUserId: string;
+        photo: string;
+        name: string;
+        reason: string;
+        chatId: string;
+      }[] = [];
       snapshot.docs.forEach((d) => {
         const reportData = d.data();
         reportList.push({
@@ -369,9 +452,20 @@ export const getSeekerReports = async (setSeekerReports, userId) => {
   }
 };
 
-export const getListenerReviews = async (setListenerReviews, userId) => {
+export const getListenerReviews = async (
+  setListenerReviews: (arg0: any[]) => void,
+  userId: string
+) => {
   try {
-    const reviewList = [];
+    const reviewList: {
+      key: string;
+      chatId: string;
+      seekerName: string;
+      seekerId: string;
+      listenerName: string;
+      listenerId: string;
+      experience: string;
+    }[] = [];
 
     const reviewRef = query(
       collection(db, LISTENER_FEEDBACK),
@@ -398,9 +492,21 @@ export const getListenerReviews = async (setListenerReviews, userId) => {
   }
 };
 
-export const getListenerReports = async (setListenerReports, userId) => {
+export const getListenerReports = async (
+  setListenerReports: (arg0: any[]) => void,
+  userId: string
+) => {
   try {
-    const reportList = [];
+    const reportList: {
+      key: string;
+      chatId: string;
+      seekerName: string;
+      seekerId: string;
+      listenerName: string;
+      listenerId: string;
+      reason: string;
+      requestReported: string;
+    }[] = [];
 
     const reportRef = query(
       collection(db, LISTENER_REPORTS),
@@ -428,11 +534,14 @@ export const getListenerReports = async (setListenerReports, userId) => {
   }
 };
 
-export const getTherapistData = async (setTherapistData, userId) => {
+export const getTherapistData = async (
+  setTherapistData: (arg0: { key: any; photo: string; age: number }[]) => void,
+  userId: string
+) => {
   try {
     const docRef = doc(db, THERAPIST, userId);
     const response = await getDoc(docRef);
-    const therapistData = response.data();
+    const therapistData: any = response.data();
     setTherapistData([
       {
         ...therapistData,
@@ -446,7 +555,10 @@ export const getTherapistData = async (setTherapistData, userId) => {
   }
 };
 
-export const fetchUserSessionDefaults = async (setSessionDefaults, userId) => {
+export const fetchUserSessionDefaults = async (
+  setSessionDefaults: (arg0: { key: any }[]) => void,
+  userId: string
+) => {
   try {
     const userRef = doc(db, USERS, userId, SESSION_DEFAULTS, SESSION_DEFAULTS);
     const response = await getDoc(userRef);
@@ -463,9 +575,24 @@ export const fetchUserSessionDefaults = async (setSessionDefaults, userId) => {
   }
 };
 
-export const fetchUserSessions = async (setSessions, userId) => {
+export const fetchUserSessions = async (
+  setSessions: (arg0: any[]) => void,
+  userId: string
+) => {
   try {
-    const sessionList = [];
+    const sessionList: {
+      key: string;
+      sessionId: string;
+      therapist: string;
+      seekerId: string;
+      reason: string;
+      timestamp: string;
+      payment: any;
+      paidTime: string;
+      email: string;
+      preferredAge: number;
+      preferredLanguage: string;
+    }[] = [];
     const userSessionRef = collection(db, USERS, userId, SESSIONS);
     const querySnapshot = await getDocs(userSessionRef);
 
@@ -500,9 +627,12 @@ export const fetchUserSessions = async (setSessions, userId) => {
   }
 };
 
-export const getSeekerSessionCredits = async (setSessionCredit, userId) => {
+export const getSeekerSessionCredits = async (
+  setSessionCredit: (arg0: any[]) => void,
+  userId: unknown
+) => {
   try {
-    const seekerSessionCreditList = [];
+    const seekerSessionCreditList: { key: string }[] = [];
     const creditRef = query(
       collection(db, SESSION_CREDITS),
       where("creditsLeft", ">=", 1),
@@ -525,9 +655,19 @@ export const getSeekerSessionCredits = async (setSessionCredit, userId) => {
   }
 };
 
-export const fetchUserSessionsRequests = async (setSessionRequests, userId) => {
+export const fetchUserSessionsRequests = async (
+  setSessionRequests: (arg0: any[]) => void,
+  userId: unknown
+) => {
   try {
-    const sessionRequestsList = [];
+    const sessionRequestsList: {
+      key: string;
+      sessionId: string;
+      therapist: any;
+      seekerId: any;
+      reason: any;
+      started: string;
+    }[] = [];
     const userSessionRef = query(
       collection(db, SESSION_REQUESTS),
       where("requesterID", "==", userId)
@@ -557,9 +697,19 @@ export const fetchUserSessionsRequests = async (setSessionRequests, userId) => {
   }
 };
 
-export const fetchUserSessionsUpdates = async (setSessionUpdates, userId) => {
+export const fetchUserSessionsUpdates = async (
+  setSessionUpdates: (arg0: any[]) => void,
+  userId: string
+) => {
   try {
-    const sessionUpdatesList = [];
+    const sessionUpdatesList: {
+      key: string;
+      sessionId: string;
+      therapist: string;
+      seekerId: string;
+      reason: string;
+      started: string;
+    }[] = [];
     const userSessionRef = query(
       collection(db, SESSION_UPDATES),
       where("requesterID", "==", userId)
@@ -589,7 +739,10 @@ export const fetchUserSessionsUpdates = async (setSessionUpdates, userId) => {
   }
 };
 
-export const checkAccountDisabled = async (userId, setIsDisabled) => {
+export const checkAccountDisabled = async (
+  userId: string,
+  setIsDisabled: (arg0: any) => void
+) => {
   try {
     const docRef = doc(db, USERS, userId);
 
@@ -602,7 +755,7 @@ export const checkAccountDisabled = async (userId, setIsDisabled) => {
   }
 };
 
-export const banUser = async (userId, status) => {
+export const banUser = async (userId: string, status: boolean) => {
   try {
     const docRef = doc(db, USERS, userId);
 

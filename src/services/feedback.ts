@@ -18,12 +18,13 @@ import {
 } from "../libraries/firebase";
 
 import moment from "moment";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const getAppFeedbacks = async (
-  setAppFeedbacks,
-  paginateType,
-  currentDocs,
-  setCurrentDocs
+  setAppFeedbacks: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void
 ) => {
   try {
     let docRef;
@@ -52,7 +53,15 @@ export const getAppFeedbacks = async (
     }
 
     const res = await getDocs(docRef);
-    const appFeedbackList = [];
+    const appFeedbackList: {
+      type: string;
+      key: number;
+      id: string;
+      userId: string;
+      user: string;
+      experience: string;
+      timestamp: string;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {
@@ -82,11 +91,11 @@ export const getAppFeedbacks = async (
 };
 
 export const getMatchingExitFeedback = async (
-  setMatchingExitFeedback,
-  paginateType,
-  currentDocs,
-  setCurrentDocs,
-  setTableSource
+  setMatchingExitFeedback: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  setTableSource: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -115,7 +124,15 @@ export const getMatchingExitFeedback = async (
     }
 
     const res = await getDocs(docRef);
-    const mathchingExitFeedback = [];
+    const mathchingExitFeedback: {
+      type: string;
+      key: number;
+      id: string;
+      userId: string;
+      user: string;
+      reason: string;
+      timestamp: string;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {
@@ -146,11 +163,11 @@ export const getMatchingExitFeedback = async (
 };
 
 export const getListenerFeedback = async (
-  setListenerFeedback,
-  paginateType,
-  currentDocs,
-  setCurrentDocs,
-  setTableSource
+  setListenerFeedback: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  setTableSource: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -179,7 +196,18 @@ export const getListenerFeedback = async (
     }
 
     const res = await getDocs(docRef);
-    const listenerFeedback = [];
+    const listenerFeedback: {
+      key: number;
+      userType: string;
+      type: string;
+      feedbackId: string;
+      userId: string;
+      otherUserId: string;
+      id: string;
+      seeker: string;
+      experience: string;
+      timestamp: string;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {
@@ -214,11 +242,11 @@ export const getListenerFeedback = async (
 };
 
 export const getSeekerFeedback = async (
-  setSeekerFeedback,
-  paginateType,
-  currentDocs,
-  setCurrentDocs,
-  setTableSource
+  setSeekerFeedback: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  setTableSource: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -247,7 +275,20 @@ export const getSeekerFeedback = async (
     }
 
     const res = await getDocs(docRef);
-    const seekerFeedback = [];
+    const seekerFeedback: {
+      key: number;
+      userType: string;
+      type: string;
+      feedbackId: string;
+      userId: string;
+      otherUserId: string;
+      id: string;
+      listener: string;
+      experience: string;
+      feeling: string;
+      rating: string;
+      timestamp: string;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {
