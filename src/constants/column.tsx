@@ -1,8 +1,35 @@
 import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Images } from "../assets";
+import {
+  AppFeedbackColumnType,
+  ChatColumnType,
+  ChatRequestColumnType,
+  GlobalArchiveChatColumnType,
+  ListenerColumnType,
+  ListenerFeedbackColumnType,
+  ListenersChatColumnType,
+  ListenersReportColumnType,
+  ListenersReviewColumnType,
+  MatchingFeedbackColumnType,
+  MemberListColumnType,
+  MissedChatRequestColumnType,
+  ModerationListenerReportColumn,
+  ModerationSeekerReportColumnType,
+  SeekerColumnType,
+  SeekerFeedbackColumnType,
+  SeekerReportColumnType,
+  SeekersChatColumnType,
+  SeekerSessionColumnType,
+  SessionColumnType,
+  SessionCreditsColumnType,
+  SessionRequestsColumnType,
+  SessionUpdatesColumnType,
+  TherapistColumnType,
+} from "./columnType";
+import { ColumnsType } from "antd/es/table";
 
-const seekerColumns: = [
+const seekerColumns: ColumnsType<SeekerColumnType> = [
   {
     title: "Name",
     dataIndex: "name",
@@ -30,7 +57,7 @@ const seekerColumns: = [
   },
 ];
 
-const seekersChatColumn = [
+const seekersChatColumn: ColumnsType<SeekersChatColumnType> = [
   {
     title: "",
     dataIndex: "photo",
@@ -96,7 +123,7 @@ const seekersChatColumn = [
   },
 ];
 
-const seekerSessionColumn = [
+const seekerSessionColumn: ColumnsType<SeekerSessionColumnType> = [
   {
     title: "Session ID",
     dataIndex: "sessionId",
@@ -146,7 +173,7 @@ const seekerSessionColumn = [
   },
 ];
 
-const seekersReportColumn = [
+const seekersReportColumn: ColumnsType<SeekerReportColumnType> = [
   {
     title: "",
     dataIndex: "photo",
@@ -206,7 +233,7 @@ const seekersReportColumn = [
   },
 ];
 
-const chatRequestColumn = [
+const chatRequestColumn: ColumnsType<ChatRequestColumnType> = [
   {
     title: "Seeker Name",
     dataIndex: "seeker",
@@ -229,7 +256,7 @@ const chatRequestColumn = [
   },
 ];
 
-const missedChatRequestColumn = [
+const missedChatRequestColumn: ColumnsType<MissedChatRequestColumnType> = [
   {
     title: "Seeker Name",
     dataIndex: "seeker",
@@ -262,7 +289,7 @@ const missedChatRequestColumn = [
   },
 ];
 
-const chatColumns = [
+const chatColumns: ColumnsType<ChatColumnType> = [
   {
     title: "ID",
     dataIndex: "id",
@@ -325,7 +352,7 @@ const chatColumns = [
   },
 ];
 
-const memberListColumns = [
+const memberListColumns: ColumnsType<MemberListColumnType> = [
   {
     title: "",
     dataIndex: "photo",
@@ -368,7 +395,7 @@ const memberListColumns = [
   },
 ];
 
-const listenerColumns = [
+const listenerColumns: ColumnsType<ListenerColumnType> = [
   {
     title: "Name",
     dataIndex: "name",
@@ -399,7 +426,7 @@ const listenerColumns = [
   },
 ];
 
-const listenersChatColumn = [
+const listenersChatColumn: ColumnsType<ListenersChatColumnType> = [
   {
     title: "",
     dataIndex: "name",
@@ -453,7 +480,7 @@ const listenersChatColumn = [
   },
 ];
 
-const listenersReportColumn = [
+const listenersReportColumn: ColumnsType<ListenersReportColumnType> = [
   {
     title: "Seeker name",
     dataIndex: "seekerName",
@@ -518,7 +545,7 @@ const listenersReportColumn = [
   },
 ];
 
-const listenersReviewColumn = [
+const listenersReviewColumn: ColumnsType<ListenersReviewColumnType> = [
   {
     title: "Chat ID",
     dataIndex: "chatId",
@@ -571,7 +598,7 @@ const listenersReviewColumn = [
   },
 ];
 
-const appFeebackColumn = [
+const appFeebackColumn: ColumnsType<AppFeedbackColumnType> = [
   {
     title: "User name",
     dataIndex: "user",
@@ -609,7 +636,7 @@ const appFeebackColumn = [
   },
 ];
 
-const matchingFeedbackColumn = [
+const matchingFeedbackColumn: ColumnsType<MatchingFeedbackColumnType> = [
   {
     title: "User name",
     dataIndex: "user",
@@ -647,7 +674,7 @@ const matchingFeedbackColumn = [
   },
 ];
 
-const listenerFeedbackColumn = [
+const listenerFeedbackColumn: ColumnsType<ListenerFeedbackColumnType> = [
   {
     title: "Chat ID",
     dataIndex: "id",
@@ -718,7 +745,7 @@ const listenerFeedbackColumn = [
   },
 ];
 
-const seekerFeedbackColumn = [
+const seekerFeedbackColumn: ColumnsType<SeekerFeedbackColumnType> = [
   {
     title: "Chat ID",
     dataIndex: "id",
@@ -793,147 +820,149 @@ const seekerFeedbackColumn = [
   },
 ];
 
-const moderationListenerReportColumn = [
-  {
-    title: "Chat ID",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Seeker name",
-    dataIndex: "seeker",
-    key: "seeker",
-  },
-  {
-    title: "Report",
-    dataIndex: "report",
-    key: "report",
-  },
-  {
-    title: "Timestamp",
-    dataIndex: "timestamp",
-    key: "timestamp",
-  },
-  {
-    title: "",
-    dataIndex: "action1",
-    key: "action1",
-    render: (text, record) => (
-      <Link
-        to={`/moderation/reports/${record.userType.toLowerCase()}/${
-          record.reportId
-        }`}
-        state={{
-          reportId: record.reportId,
-          userType: record.userType,
-          chatId: record.id,
-          userId: record.userId,
-          otherUserId: record.otherUserId,
-          report: record.report,
-          requestReported: record.requestReported,
-        }}
-      >
-        <button className="text-lg text-black font-medium underline">
-          View Report
-        </button>
-      </Link>
-    ),
-  },
-  {
-    title: "",
-    dataIndex: "action2",
-    key: "action2",
-    render: (text, record) => (
-      <Link
-        to={`/moderation/reports/${record.userType.toLowerCase()}/${
-          record.reportId
-        }`}
-        state={{
-          reportId: record.reportId,
-          userType: record.userType,
-          chatId: record.id,
-          userId: record.userId,
-          otherUserId: record.otherUserId,
-          report: record.report,
-          requestReported: record.requestReported,
-        }}
-      >
-        <RightOutlined />
-      </Link>
-    ),
-  },
-];
+const moderationListenerReportColumn: ColumnsType<ModerationListenerReportColumn> =
+  [
+    {
+      title: "Chat ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Seeker name",
+      dataIndex: "seeker",
+      key: "seeker",
+    },
+    {
+      title: "Report",
+      dataIndex: "report",
+      key: "report",
+    },
+    {
+      title: "Timestamp",
+      dataIndex: "timestamp",
+      key: "timestamp",
+    },
+    {
+      title: "",
+      dataIndex: "action1",
+      key: "action1",
+      render: (text, record) => (
+        <Link
+          to={`/moderation/reports/${record.userType.toLowerCase()}/${
+            record.reportId
+          }`}
+          state={{
+            reportId: record.reportId,
+            userType: record.userType,
+            chatId: record.id,
+            userId: record.userId,
+            otherUserId: record.otherUserId,
+            report: record.report,
+            requestReported: record.requestReported,
+          }}
+        >
+          <button className="text-lg text-black font-medium underline">
+            View Report
+          </button>
+        </Link>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "action2",
+      key: "action2",
+      render: (text, record) => (
+        <Link
+          to={`/moderation/reports/${record.userType.toLowerCase()}/${
+            record.reportId
+          }`}
+          state={{
+            reportId: record.reportId,
+            userType: record.userType,
+            chatId: record.id,
+            userId: record.userId,
+            otherUserId: record.otherUserId,
+            report: record.report,
+            requestReported: record.requestReported,
+          }}
+        >
+          <RightOutlined />
+        </Link>
+      ),
+    },
+  ];
 
-const moderationSeekerReportColumn = [
-  {
-    title: "Chat ID",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Listener name",
-    dataIndex: "listener",
-    key: "listener",
-  },
-  {
-    title: "Report",
-    dataIndex: "report",
-    key: "report",
-  },
-  {
-    title: "Timestamp",
-    dataIndex: "timestamp",
-    key: "timestamp",
-  },
-  {
-    title: "",
-    dataIndex: "action1",
-    key: "action1",
-    render: (text, record) => (
-      <Link
-        to={`/moderation/reports/${record.userType.toLowerCase()}/${
-          record.reportId
-        }`}
-        state={{
-          reportId: record.reportId,
-          userType: record.userType,
-          chatId: record.id,
-          userId: record.userId,
-          otherUserId: record.otherUserId,
-          report: record.report,
-        }}
-      >
-        <button className="text-lg text-black font-medium underline">
-          View Report
-        </button>
-      </Link>
-    ),
-  },
-  {
-    title: "",
-    dataIndex: "action2",
-    key: "action2",
-    render: (text, record) => (
-      <Link
-        to={`/moderation/reports/${record.userType.toLowerCase()}/${
-          record.reportId
-        }`}
-        state={{
-          reportId: record.reportId,
-          userType: record.userType,
-          chatId: record.id,
-          userId: record.userId,
-          otherUserId: record.otherUserId,
-          report: record.report,
-        }}
-      >
-        <RightOutlined />
-      </Link>
-    ),
-  },
-];
+const moderationSeekerReportColumn: ColumnsType<ModerationSeekerReportColumnType> =
+  [
+    {
+      title: "Chat ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Listener name",
+      dataIndex: "listener",
+      key: "listener",
+    },
+    {
+      title: "Report",
+      dataIndex: "report",
+      key: "report",
+    },
+    {
+      title: "Timestamp",
+      dataIndex: "timestamp",
+      key: "timestamp",
+    },
+    {
+      title: "",
+      dataIndex: "action1",
+      key: "action1",
+      render: (text, record) => (
+        <Link
+          to={`/moderation/reports/${record.userType.toLowerCase()}/${
+            record.reportId
+          }`}
+          state={{
+            reportId: record.reportId,
+            userType: record.userType,
+            chatId: record.id,
+            userId: record.userId,
+            otherUserId: record.otherUserId,
+            report: record.report,
+          }}
+        >
+          <button className="text-lg text-black font-medium underline">
+            View Report
+          </button>
+        </Link>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "action2",
+      key: "action2",
+      render: (text, record) => (
+        <Link
+          to={`/moderation/reports/${record.userType.toLowerCase()}/${
+            record.reportId
+          }`}
+          state={{
+            reportId: record.reportId,
+            userType: record.userType,
+            chatId: record.id,
+            userId: record.userId,
+            otherUserId: record.otherUserId,
+            report: record.report,
+          }}
+        >
+          <RightOutlined />
+        </Link>
+      ),
+    },
+  ];
 
-const sessionColumns = [
+const sessionColumns: ColumnsType<SessionColumnType> = [
   {
     title: "Session ID",
     dataIndex: "id",
@@ -990,7 +1019,7 @@ const sessionColumns = [
   },
 ];
 
-const therapistColumn = [
+const therapistColumn: ColumnsType<TherapistColumnType> = [
   {
     title: "Photo",
     dataIndex: "photo",
@@ -1042,7 +1071,7 @@ const therapistColumn = [
   },
 ];
 
-const sessionRequestsColumns = [
+const sessionRequestsColumns: ColumnsType<SessionRequestsColumnType> = [
   {
     title: "Session ID",
     dataIndex: "sessionId",
@@ -1065,7 +1094,7 @@ const sessionRequestsColumns = [
   },
 ];
 
-const sessionUpdatesColumns = [
+const sessionUpdatesColumns: ColumnsType<SessionUpdatesColumnType> = [
   {
     title: "Session ID",
     dataIndex: "sessionId",
@@ -1088,7 +1117,7 @@ const sessionUpdatesColumns = [
   },
 ];
 
-const sessionCreditsColumn = [
+const sessionCreditsColumn: ColumnsType<SessionCreditsColumnType> = [
   {
     title: "Therapist",
     dataIndex: "therapist",
@@ -1112,7 +1141,7 @@ const sessionCreditsColumn = [
   },
 ];
 
-const globalArchiveChatColumns = [
+const globalArchiveChatColumns: ColumnsType<GlobalArchiveChatColumnType> = [
   {
     title: "ID",
     dataIndex: "id",
