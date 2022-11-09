@@ -12,11 +12,20 @@ import {
 } from "../../../services/chat";
 import { getSenderName } from "../../../utils/helper";
 
+type userType = {
+  key: any;
+  name: string;
+  photo: string;
+  age: number;
+  gender: string;
+  profileType: string;
+};
+
 function ChatDetail() {
   const { state } = useLocation();
-  const [userData, setUserData] = useState([]);
-  const [otherUserData, setOtherUserData] = useState([]);
-  const [chatMessages, setChatMessages] = useState([]);
+  const [userData, setUserData] = useState<userType[]>([]);
+  const [otherUserData, setOtherUserData] = useState<userType[]>([]);
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
   const {
     chatId,
     userId,

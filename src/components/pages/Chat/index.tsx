@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Tabs } from "antd";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 import SideBar from "../../common/SideBar";
 import {
@@ -21,7 +22,8 @@ const Chat = () => {
   const [globalArchiveChat, setGlobalArchiveChat] = useState<any[]>([]);
   const [activeSnapshotDocs, setActiveSnapshotDocs] = useState<any[]>([]);
   const [dedicatedSnapshotDocs, setDedicatedSnapshotDocs] = useState<any[]>([]);
-  const [archiveSnapshotDocs, setArchiveSnapshotDocs] = useState<any[]>([]);
+  const [archiveSnapshotDocs, setArchiveSnapshotDocs] =
+    useState<QuerySnapshot<DocumentData>>();
   const currentPageActiveList = activeChat.slice(-10);
   const currentPageDedicatedList = dedicatedChat.slice(-10);
 
