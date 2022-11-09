@@ -34,6 +34,7 @@ import {
   QuerySnapshot,
   DocumentData,
   DocumentReference,
+  DocumentSnapshot,
 } from "firebase/firestore";
 
 export const getChatRequests = async (
@@ -229,7 +230,7 @@ export const getDedicatedChats = async (
     let updatedSnapshotDocs = snapshotDocs.concat(querySnapshot.docs);
     setSnapshotDocs(updatedSnapshotDocs);
 
-    querySnapshot.docs.forEach((dedicatedDoc) => {
+    querySnapshot.docs.forEach((dedicatedDoc: any) => {
       const alreadyExist = dedicatedList.some(
         (dedicatedItem) => dedicatedItem && dedicatedItem.id === dedicatedDoc.id
       );
@@ -389,7 +390,7 @@ export const getGlobalArchiveChats = async (
     }[] = [];
 
     if (querySnapshot.size > 0) {
-      querySnapshot.docs.forEach((archiveDoc) => {
+      querySnapshot.docs.forEach((archiveDoc: any) => {
         const alreadyExist = archiveList.some(
           (archiveItem) => archiveItem && archiveItem.id === archiveDoc.id
         );

@@ -11,13 +11,14 @@ import {
   orderBy,
 } from "../libraries/firebase";
 import moment from "moment";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const getListenerReports = async (
-  setListenerReports,
-  paginateType,
-  currentDocs,
-  setCurrentDocs,
-  setTableSource
+  setListenerReports: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  setTableSource: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -46,7 +47,18 @@ export const getListenerReports = async (
     }
 
     const res = await getDocs(docRef);
-    const listenerReports = [];
+    const listenerReports: {
+      userType: string;
+      reportId: string;
+      id: string;
+      key: number;
+      userId: string;
+      otherUserId: string;
+      seeker: string;
+      report: string;
+      timestamp: string;
+      requestReported: any;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {
@@ -81,11 +93,11 @@ export const getListenerReports = async (
 };
 
 export const getSeekerReports = async (
-  setSeekerReports,
-  paginateType,
-  currentDocs,
-  setCurrentDocs,
-  setTableSource
+  setSeekerReports: (arg0: any[]) => void,
+  paginateType: string,
+  currentDocs: { docs: string | any[] },
+  setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
+  setTableSource: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -115,7 +127,17 @@ export const getSeekerReports = async (
 
     const res = await getDocs(docRef);
 
-    const seekerReports = [];
+    const seekerReports: {
+      userType: string;
+      reportId: string;
+      id: string;
+      key: number;
+      userId: string;
+      otherUserId: string;
+      listener: string;
+      report: string;
+      timestamp: string;
+    }[] = [];
 
     if (res.size > 0) {
       res.forEach((snapShot) => {

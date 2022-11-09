@@ -2,7 +2,7 @@ import { RightOutlined, CheckOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Images } from "../assets";
 
-const seekerColumns = [
+const seekerColumns: = [
   {
     title: "Name",
     dataIndex: "name",
