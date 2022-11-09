@@ -4,6 +4,7 @@ import { Table } from "antd";
 import SideBar from "../../common/SideBar";
 import { therapistColumn } from "../../../constants/column";
 import { fetchTherapists } from "../../../services/therapist";
+import { TherapistColumnType } from "../../../constants/columnType";
 
 const Therapists = () => {
   const [therapistList, setTherapistList] = useState<any[]>([]);
@@ -18,11 +19,10 @@ const Therapists = () => {
         <SideBar active={"Therapists"} />
       </div>
       <div className="w-full flex flex-col items-center mt-12 mx-6">
-        <Table
+        <Table<TherapistColumnType>
           className="w-full"
           dataSource={therapistList}
           columns={therapistColumn}
-          pagination={true}
         />
       </div>
     </div>
