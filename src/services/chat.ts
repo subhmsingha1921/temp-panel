@@ -117,7 +117,7 @@ export const getActiveChats = async (
   setActiveChat: (arg0: any) => void,
   snapshotDocs: any[],
   setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let activeChatList: {
@@ -195,7 +195,7 @@ export const getDedicatedChats = async (
   setDedicatedChat: (arg0: any) => void,
   snapshotDocs: any[],
   setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let dedicatedList: {
@@ -345,9 +345,9 @@ export const getMissedChatRequests = async (
 
 export const getGlobalArchiveChats = async (
   setGlobalArchiveChat: (arg0: any[]) => void,
-  snapshotDocs: { docs: string | any[] },
-  setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  paginateType: string
+  snapshotDocs: any,
+  setSnapshotDocs: (arg0: any) => void,
+  paginateType?: string
 ) => {
   try {
     let archiveChatRef = query(
