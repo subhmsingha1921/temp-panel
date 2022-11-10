@@ -30,12 +30,7 @@ import {
 
 import moment from "moment";
 import { formatTime, getAvatar } from "../utils/helper";
-import {
-  QuerySnapshot,
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-} from "firebase/firestore";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const getChatRequests = async (
   setChatRequests: (arg0: any[]) => void
@@ -118,7 +113,7 @@ export const getActiveChats = async (
   setActiveChat: (arg0: any) => void,
   snapshotDocs: any[],
   setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let activeChatList: {
@@ -196,7 +191,7 @@ export const getDedicatedChats = async (
   setDedicatedChat: (arg0: any) => void,
   snapshotDocs: any[],
   setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let dedicatedList: {
@@ -274,10 +269,10 @@ export const getDedicatedChats = async (
 
 export const getMissedChatRequests = async (
   setMissedChatRequests: (arg0: any[]) => void,
-  snapshotDocs: { docs: string | any[] },
+  snapshotDocs: QuerySnapshot<DocumentData> | any,
   setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
   paginateType: string,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let missedChatRequestsRef = query(
@@ -346,9 +341,9 @@ export const getMissedChatRequests = async (
 
 export const getGlobalArchiveChats = async (
   setGlobalArchiveChat: (arg0: any[]) => void,
-  snapshotDocs: { docs: string | any[] },
+  snapshotDocs: QuerySnapshot<DocumentData> | any,
   setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let archiveChatRef = query(

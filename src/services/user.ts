@@ -90,10 +90,10 @@ export const fetchUsers = async (
 
 export const fetchListeners = async (
   listenerList: any[],
-  setListenerList: (arg0: any) => void,
+  setListenerList: (arg0: any[]) => void,
   snapshotDocs: any[],
-  setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  setSnapshotDocs: (arg0: any[]) => void,
+  paginateType?: string
 ) => {
   try {
     let userRef = query(collection(db, LISTENERS), limit(10));
@@ -244,7 +244,7 @@ export const getListenerProfileInfo = async (
 export const getUserActiveChats = async (
   setActiveChat: (arg0: any[]) => void,
   userId: string,
-  userType = "user"
+  userType: string = "user"
 ) => {
   try {
     const activeChatList: {
@@ -292,12 +292,12 @@ export const getUserActiveChats = async (
 
 export const getUserDedicatedChats = async (
   dedicatedChat: any[],
-  setDedicatedChat: (arg0: any) => void,
+  setDedicatedChat: (arg0: any[]) => void,
   userId: string,
-  userType: unknown,
+  userType: string,
   snapshotDocs: any[],
-  setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  setSnapshotDocs: (arg0: any[]) => void,
+  paginateType?: string
 ) => {
   try {
     let dedicatedChatList: {
@@ -354,12 +354,12 @@ export const getUserDedicatedChats = async (
 
 export const getUserArchiveChats = async (
   archiveChatList: any[],
-  setArchiveChatList: (arg0: any) => void,
+  setArchiveChatList: (arg0: any[]) => void,
   userId: string,
   userType: string,
   snapshotDocs: any[],
-  setSnapshotDocs: (arg0: any) => void,
-  paginateType: string
+  setSnapshotDocs: (arg0: any[]) => void,
+  paginateType?: string
 ) => {
   try {
     let chatList: {

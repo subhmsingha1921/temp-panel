@@ -1,8 +1,8 @@
 import React from "react";
 
 type InfoCardProps = {
-  header: string;
-  subText: string;
+  header: string | undefined;
+  subText: string | number | undefined;
 };
 
 const InfoCard: React.FC<InfoCardProps> = ({ header, subText }) => {
