@@ -18,9 +18,9 @@ import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 export const fetchSessions = async (
   setSessionList: (arg0: any[]) => void,
-  snapshotDocs: { docs: string | any[] },
+  snapshotDocs: QuerySnapshot<DocumentData> | any,
   setSnapshotDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  paginateType: string
+  paginateType?: string
 ) => {
   try {
     let sessionRef = query(

@@ -16,9 +16,9 @@ import { QuerySnapshot, DocumentData } from "firebase/firestore";
 export const getListenerReports = async (
   setListenerReports: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -95,9 +95,9 @@ export const getListenerReports = async (
 export const getSeekerReports = async (
   setSeekerReports: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
