@@ -23,7 +23,7 @@ import { QuerySnapshot, DocumentData } from "firebase/firestore";
 export const getAppFeedbacks = async (
   setAppFeedbacks: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void
 ) => {
   try {
@@ -93,9 +93,9 @@ export const getAppFeedbacks = async (
 export const getMatchingExitFeedback = async (
   setMatchingExitFeedback: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -165,9 +165,9 @@ export const getMatchingExitFeedback = async (
 export const getListenerFeedback = async (
   setListenerFeedback: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
@@ -244,9 +244,9 @@ export const getListenerFeedback = async (
 export const getSeekerFeedback = async (
   setSeekerFeedback: (arg0: any[]) => void,
   paginateType: string,
-  currentDocs: { docs: string | any[] },
+  currentDocs: QuerySnapshot<DocumentData> | any,
   setCurrentDocs: (arg0: QuerySnapshot<DocumentData>) => void,
-  setTableSource: (arg0: any[]) => void
+  setTableSource?: (arg0: any[]) => void
 ) => {
   try {
     let docRef;
