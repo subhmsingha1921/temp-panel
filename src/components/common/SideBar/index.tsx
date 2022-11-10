@@ -1,58 +1,63 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { logoutFromFirebase } from "../../../libraries/authentication";
+import { auth } from "../../../libraries/firebase";
 
 type SideBarProps = {
   active: string;
 };
 
 const SideBar: React.FC<SideBarProps> = ({ active }) => {
+  const navigate = useNavigate();
+
   const pages = [
     {
       name: "Seekers",
       onPress: () => {
-        // return navigate("/seekers");
+        return navigate("/seekers");
       },
     },
     {
       name: "Listeners",
       onPress: () => {
-        // return navigate("/listeners");
+        return navigate("/listeners");
       },
     },
     {
       name: "Therapists",
       onPress: () => {
-        // return navigate("/therapists");
+        return navigate("/therapists");
       },
     },
     {
       name: "Chats",
       onPress: () => {
-        // return navigate("/chats");
+        return navigate("/chats");
       },
     },
     {
       name: "Sessions",
       onPress: () => {
-        // return navigate("/sessions");
+        return navigate("/sessions");
       },
     },
     {
       name: "Chat requests",
       onPress: () => {
-        // return navigate("/chatrequest");
+        return navigate("/chatrequest");
       },
     },
     {
       name: "Moderation",
       onPress: () => {
-        // return navigate("/moderation");
+        return navigate("/moderation");
       },
     },
     {
       name: "Logout",
       onPress: async () => {
-        // await logoutFromFirebase(auth.currentUser);
-        // return navigate("/");
+        await logoutFromFirebase(auth.currentUser);
+        return navigate("/");
       },
     },
   ];

@@ -5,17 +5,24 @@ import { useLocation } from "react-router-dom";
 import SideBar from "../../common/SideBar";
 import InfoCard from "../../common/InfoCard";
 import {
-  listenersChatColumn,
-  listenersReportColumn,
-  listenersReviewColumn,
+  seekersChatColumn,
+  seekersReportColumn,
+  seekerSessionColumn,
+  sessionCreditsColumn,
+  sessionRequestsColumns,
+  sessionUpdatesColumns,
 } from "../../../constants/column";
 import {
-  getListenerProfileInfo,
+  getUserProfileInfo,
   getUserActiveChats,
   getUserDedicatedChats,
   getUserArchiveChats,
-  getListenerReviews,
-  getListenerReports,
+  getSeekerReports,
+  fetchUserSessionDefaults,
+  fetchUserSessions,
+  getSeekerSessionCredits,
+  fetchUserSessionsRequests,
+  fetchUserSessionsUpdates,
   checkAccountDisabled,
   banUser,
 } from "../../../services/user";
@@ -34,54 +41,70 @@ type currentUserType = {
   location: string | any;
 };
 
-const ListenerProfile = () => {
+type concernType = string;
+
+const SeekerProfile = () => {
   const { state } = useLocation();
   const { TabPane } = Tabs;
-  const userId = state.userId;
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<currentUserType>();
   const [activeChat, setActiveChat] = useState<any[]>([]);
   const [dedicatedChat, setDedicatedChat] = useState<any[]>([]);
-  const [archiveChat, setArchiveChat] = useState<any[]>([]);
-  const [listenerReviews, setListenerReviews] = useState<any[]>([]);
-  const [listenerReports, setListenerReports] = useState<any[]>([]);
+  const [archiveChatList, setArchiveChatList] = useState<any[]>([]);
+  const [seekerReports, setSeekerReports] = useState<any[]>([]);
   const [dedicatedSnapshotDocs, setDedicatedSnapshotDocs] = useState<any[]>([]);
   const [archiveSnapshotDocs, setArchiveSnapshotDocs] = useState<any[]>([]);
+  const [sessionDefaults, setSessionDefaults] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [sessionRequests, setSessionRequests] = useState<any[]>([]);
+  const [sessionUpdates, setSessionUpdates] = useState<any[]>([]);
+  const [sessionCredit, setSessionCredit] = useState<any[]>([]);
+  const concernsList: object = sessionDefaults[0]?.concerns ?? {};
+  const concernValues: concernType[] = Object.values(concernsList)[0];
 
   const TabArray = [
     "Active Chat",
     "Dedicated Chat",
     "Archive",
     "Reports",
-    "Reviews",
+    "Sessions",
+    "Session Requests",
+    "Session Updates",
+    "SessionCredits",
   ];
 
+  const userId = state.userId;
+
   useEffect(() => {
-    getListenerProfileInfo(setCurrentUser, userId);
-    getUserActiveChats(setActiveChat, userId, "listener");
+    getUserProfileInfo(setCurrentUser, userId);
+    getUserActiveChats(setActiveChat, userId);
     getUserDedicatedChats(
       dedicatedChat,
       setDedicatedChat,
       userId,
-      "listener",
+      "seeker",
       dedicatedSnapshotDocs,
       setDedicatedSnapshotDocs
     );
     getUserArchiveChats(
-      archiveChat,
-      setArchiveChat,
+      archiveChatList,
+      setArchiveChatList,
       userId,
-      "listener",
+      "seeker",
       archiveSnapshotDocs,
       setArchiveSnapshotDocs
     );
-    getListenerReviews(setListenerReviews, userId);
-    getListenerReports(setListenerReports, userId);
+    getSeekerReports(setSeekerReports, userId);
+    fetchUserSessionDefaults(setSessionDefaults, userId);
+    fetchUserSessions(setSessions, userId);
+    getSeekerSessionCredits(setSessionCredit, userId);
+    fetchUserSessionsRequests(setSessionRequests, userId);
+    fetchUserSessionsUpdates(setSessionUpdates, userId);
     checkAccountDisabled(userId, setIsDisabled);
   }, [userId]);
 
   const handlePrevious = (index: number) => {
-    let currentTabList = index === 1 ? dedicatedChat : archiveChat;
+    let currentTabList = index === 1 ? dedicatedChat : archiveChatList;
     let snapshotDocs =
       index === 1 ? dedicatedSnapshotDocs : archiveSnapshotDocs;
     if (currentTabList.length <= 10) {
@@ -96,7 +119,7 @@ const ListenerProfile = () => {
       return;
     }
     setArchiveSnapshotDocs(updatedSnapshotDocs);
-    setArchiveChat(updatedTabList);
+    setArchiveChatList(updatedTabList);
   };
 
   const handleNext = (index: number) => {
@@ -105,7 +128,7 @@ const ListenerProfile = () => {
         dedicatedChat,
         setDedicatedChat,
         userId,
-        "listener",
+        "seeker",
         dedicatedSnapshotDocs,
         setDedicatedSnapshotDocs,
         "next"
@@ -113,10 +136,10 @@ const ListenerProfile = () => {
       return;
     }
     getUserArchiveChats(
-      archiveChat,
-      setArchiveChat,
+      archiveChatList,
+      setArchiveChatList,
       userId,
-      "listener",
+      "seeker",
       archiveSnapshotDocs,
       setArchiveSnapshotDocs,
       "next"
@@ -131,9 +154,9 @@ const ListenerProfile = () => {
       setDedicatedSnapshotDocs(firstSnapshot);
       return;
     }
-    const firstPage = archiveChat.slice(0, 10);
+    const firstPage = archiveChatList.slice(0, 10);
     const firstSnapshot = archiveSnapshotDocs.slice(0, 10);
-    setArchiveChat(firstPage);
+    setArchiveChatList(firstPage);
     setArchiveSnapshotDocs(firstSnapshot);
   };
 
@@ -142,29 +165,42 @@ const ListenerProfile = () => {
       case 0:
         return {
           currentTableSource: activeChat,
-          currentColumn: listenersChatColumn,
+          currentColumn: seekersChatColumn,
         };
       case 1:
         return {
           currentTableSource: dedicatedChat.slice(-10),
-          currentColumn: listenersChatColumn,
+          currentColumn: seekersChatColumn,
         };
       case 2:
         return {
-          currentTableSource: archiveChat.slice(-10),
-          currentColumn: listenersChatColumn,
+          currentTableSource: archiveChatList.slice(-10),
+          currentColumn: seekersChatColumn,
         };
       case 3:
         return {
-          currentTableSource: listenerReports,
-          currentColumn: listenersReportColumn,
-          showHeader: true,
+          currentTableSource: seekerReports,
+          currentColumn: seekersReportColumn,
         };
       case 4:
         return {
-          currentTableSource: listenerReviews,
-          currentColumn: listenersReviewColumn,
-          showHeader: true,
+          currentTableSource: sessions,
+          currentColumn: seekerSessionColumn,
+        };
+      case 5:
+        return {
+          currentTableSource: sessionRequests,
+          currentColumn: sessionRequestsColumns,
+        };
+      case 6:
+        return {
+          currentTableSource: sessionUpdates,
+          currentColumn: sessionUpdatesColumns,
+        };
+      case 7:
+        return {
+          currentTableSource: sessionCredit,
+          currentColumn: sessionCreditsColumn,
         };
       default:
         break;
@@ -186,23 +222,17 @@ const ListenerProfile = () => {
   };
 
   const tabContent = (index: number) => {
-    const {
-      currentTableSource,
-      currentColumn,
-      showHeader = false,
-    } = onChange(index);
-
+    const { currentTableSource, currentColumn } = onChange(index);
     return (
       <Table
         className="w-full"
         dataSource={currentTableSource}
         columns={currentColumn}
-        showHeader={showHeader}
         pagination={showPagination(index)}
         onRow={(record, rowIndex) => {
           return {
             onClick: () => {
-              console.log(record);
+              // console.log(record);
             },
           };
         }}
@@ -213,7 +243,7 @@ const ListenerProfile = () => {
   return (
     <div className="flex flex-row w-full">
       <div className=" w-[20%] bg-primary1">
-        <SideBar active={"Listeners"} />
+        <SideBar active={"Seekers"} />
       </div>
       <div className="w-full px-10 py-12">
         <div className="flex flex-row justify-between">
@@ -228,28 +258,57 @@ const ListenerProfile = () => {
             {isDisabled ? "UNBAN USER" : "BAN USER"}
           </button>
         </div>
-        <div className="flex flex-row w-full my-8">
-          <img
-            src={currentUser?.photo}
-            className="w-[330px] h-[330px]"
-            alt=""
-          />
-          <div className="w-full mx-6">
-            <div className="flex flex-row justify-between w-[80%] m-0 p-0">
-              <InfoCard header={"Age"} subText={currentUser?.age} />
-              <InfoCard header={"Gender"} subText={currentUser?.gender} />
-              <InfoCard header={"Phone #"} subText={currentUser?.phone} />
+        <div className="flex flex-row justify-between my-3">
+          <div className="w-[40%] pr-10">
+            <InfoCard header={"Age"} subText={currentUser?.age} />
+            <InfoCard header={"Email"} subText={currentUser?.email} />
+            <div className="my-3">
+              <p className="text-2xl font-bold">Concerns</p>
+              {concernValues?.length ? (
+                <p className="text-lg">{concernValues.join(" , ")}</p>
+              ) : (
+                <p className="text-lg">N/A</p>
+              )}
             </div>
-            <div className="flex flex-row justify-between w-[40%] m-0 p-0">
-              <InfoCard header={"Email"} subText={currentUser?.email} />
+            <div>
+              <p className="text-2xl font-bold underline my-4">
+                Therapy History
+              </p>
+              <InfoCard
+                header={"Therapy"}
+                subText={sessionDefaults[0]?.therapyHistory?.therapy || "N/A"}
+              />
             </div>
-            <InfoCard header={"Bio"} subText={currentUser?.bio} />
-
+          </div>
+          <div className="w-[30%] pr-10">
+            <InfoCard header={"Gender"} subText={currentUser?.gender || "-"} />
             <InfoCard
-              header={"Emergency contact"}
-              subText={currentUser?.contact}
+              header={"Emergency Contact"}
+              subText={currentUser?.contact || "-"}
             />
-            <InfoCard header={"Location"} subText={currentUser?.location} />
+            <InfoCard
+              header={"Preferred age"}
+              subText={sessionDefaults[0]?.preferredAge || "N/A"}
+            />
+            <div>
+              <p className="text-2xl font-bold underline my-4">
+                Under Medication
+              </p>
+              <InfoCard
+                header={"Medication"}
+                subText={
+                  sessionDefaults[0]?.underMedication?.medication || "N/A"
+                }
+              />
+            </div>
+          </div>
+          <div className="w-[30%]">
+            <InfoCard header={"Phone"} subText={currentUser?.phone} />
+            <InfoCard header={"Bio"} subText={currentUser?.bio} />
+            <InfoCard
+              header={"Preferred language"}
+              subText={sessionDefaults[0]?.preferredLanguage || "N/A"}
+            />
           </div>
         </div>
         <Tabs defaultActiveKey="0">
@@ -280,4 +339,4 @@ const ListenerProfile = () => {
   );
 };
 
-export default ListenerProfile;
+export default SeekerProfile;

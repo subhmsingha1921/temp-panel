@@ -416,7 +416,7 @@ export const getUserArchiveChats = async (
 
 export const getSeekerReports = async (
   setSeekerReports: (arg0: any[]) => void,
-  userId: unknown
+  userId: string
 ) => {
   try {
     const reportRef = query(
@@ -556,7 +556,7 @@ export const getTherapistData = async (
 };
 
 export const fetchUserSessionDefaults = async (
-  setSessionDefaults: (arg0: { key: any }[]) => void,
+  setSessionDefaults: (arg0: any[]) => void,
   userId: string
 ) => {
   try {
@@ -629,7 +629,7 @@ export const fetchUserSessions = async (
 
 export const getSeekerSessionCredits = async (
   setSessionCredit: (arg0: any[]) => void,
-  userId: unknown
+  userId: string
 ) => {
   try {
     const seekerSessionCreditList: { key: string }[] = [];
@@ -657,7 +657,7 @@ export const getSeekerSessionCredits = async (
 
 export const fetchUserSessionsRequests = async (
   setSessionRequests: (arg0: any[]) => void,
-  userId: unknown
+  userId: string
 ) => {
   try {
     const sessionRequestsList: {
@@ -741,7 +741,7 @@ export const fetchUserSessionsUpdates = async (
 
 export const checkAccountDisabled = async (
   userId: string,
-  setIsDisabled: (arg0: any) => void
+  setIsDisabled: (arg0: boolean) => void
 ) => {
   try {
     const docRef = doc(db, USERS, userId);

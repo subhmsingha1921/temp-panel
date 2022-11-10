@@ -16,7 +16,7 @@ export const logInWithEmailAndPassword = async (
   }
 };
 
-export const logoutFromFirebase = async (user: User) => {
+export const logoutFromFirebase = async (user: User | null) => {
   if (!user) {
     return;
   }

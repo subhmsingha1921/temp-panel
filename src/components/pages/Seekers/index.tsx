@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "antd";
+import { QuerySnapshot, DocumentData } from "firebase/firestore";
 
 import SideBar from "../../common/SideBar";
 import { seekerColumns } from "../../../constants/column";
 
 import { fetchUsers } from "../../../services/user";
 import PaginateButton from "../../common/PaginateButton";
-import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
 const Seekers = () => {
   const [seekerList, setSeekerList] = useState<any[]>([]);
@@ -17,7 +17,7 @@ const Seekers = () => {
     fetchUsers(setSeekerList, snapshotDocs, setSnapshotDocs);
   }, []);
 
-  const handlePaginate = (type: any) => {
+  const handlePaginate = (type?: string) => {
     fetchUsers(setSeekerList, snapshotDocs, setSnapshotDocs, type);
   };
 
@@ -29,7 +29,7 @@ const Seekers = () => {
       <div className="w-full flex flex-col items-center mt-6 mx-6">
         <div className="w-full flex flex-row justify-end">
           <button
-            onClick={handlePaginate}
+            onClick={() => handlePaginate()}
             className="bg-primary1 text-white px-6 py-2 rounded-md mb-4"
           >
             <p>Refresh</p>
